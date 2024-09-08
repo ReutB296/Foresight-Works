@@ -1,0 +1,99 @@
+.select-container {
+    position: relative;
+    border: 1px solid #12223e;
+    border-radius: 10px;
+    font-size: 18px;
+
+    .select-header {
+        padding: 10px;
+        border-radius: 10px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .dropdown-icon {
+            font-size: 14px;
+        }
+    }
+
+    .select-dropdown {
+        display: flex;
+        flex-direction: column;
+        background-color: #232b3a;
+        color: white;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        border-radius: 15px;
+        border: 1px solid #24a3ca;
+        z-index: 1000;
+        padding: 10px;
+        overflow-y: auto;
+
+        .select-filter {
+            background-color: #232b3a;
+            color: #fff;
+            padding: 5px;
+            border: none;
+            margin-bottom: 10px;
+            font-size: 16px;
+
+            &::placeholder {
+                color: #fff;
+            }
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            li {
+                padding: 8px;
+                display: flex;
+                align-items: center;
+
+                cursor: pointer;
+                border-radius: 5px;
+                color: #00d8ff;
+
+                &:hover {
+                    background-color: #282a36;
+                }
+
+                input[type="checkbox"] {
+                    margin-right: 10px;
+                    accent-color: #fff;
+                }
+
+                &.deselect-all {
+                    color: #24a3ca;
+                    font-size: 14px;
+                    font-weight: bold;
+                    text-align: right;
+                    cursor: pointer;
+                    padding-top: 10px;
+
+                    &:hover {
+                        color: #00ff7f;
+                    }
+                }
+            }
+        }
+
+        .select-all-options {
+            align-self: flex-end;
+
+            button {
+                background-color: transparent;
+                color: #fff;
+                border: none;
+                font-size: 16px;
+                cursor: pointer;
+                margin-bottom: 5px;
+            }
+        }
+    }
+}
