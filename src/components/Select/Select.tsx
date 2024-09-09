@@ -20,7 +20,7 @@ export const Select: FC<SelectProps> = ({
   placeholder,
   onChange,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedValues, setSelectedValues] = useState<any[]>([]);
   const [filterText, setFilterText] = useState("");
 
@@ -33,7 +33,7 @@ export const Select: FC<SelectProps> = ({
       }
     } else {
       setSelectedValues([value]);
-      setIsOpen(false);
+      setIsDropdownOpen(false);
     }
     onChange(isMultiple ? selectedValues : value);
   };
@@ -54,16 +54,23 @@ export const Select: FC<SelectProps> = ({
 
   return (
     <div className="select-container">
-      <div className="select-header" onClick={() => setIsOpen(!isOpen)}>
+      <div
+        className="select-box"
+        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+      >
         {selectedValues.length === 0
           ? placeholder
           : selectedValues
-              .map((val) => options.find((opt) => opt.value === val)?.label)
+              .map(
+                (value: number) =>
+                  options.find((option: SelectOption) => option.value === value)
+                    ?.label
+              )
               .join(", ")}
-        <span className="dropdown-icon">{isOpen ? "▲" : "▼"}</span>
+        <span className="dropdown-icon">{isDropdownOpen ? "▲" : "▼"}</span>
       </div>
 
-      {isOpen && (
+      {isDropdownOpen && (
         <div className="select-dropdown">
           <input
             type="text"

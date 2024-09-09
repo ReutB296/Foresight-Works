@@ -1,60 +1,60 @@
+@import "../../utilities/variables";
+@import "../../utilities/mixins";
+
 .form-container {
-    margin: auto;
-    display: flex;
-    max-width: fit-content;
+  margin: auto;
+  display: flex;
+  max-width: fit-content;
+  align-self: center;
+  border: 5px solid $darkBlue;
+  border-radius: 20px;
 
-    form {
-        border: 5px solid #232b3a;
-        border-radius: 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        padding: 20px 50px 50px 50px;
+  form {
+    @include flex-column;
+    gap: 20px;
+    padding: 20px 50px 50px 50px;
 
-        h4 {
-            font-size: 24px;
-        }
-
-        label {
-            font-weight: 500;
-        }
-
-        input {
-            border: 1px solid #12223e;
-            border-radius: 10px;
-            font-size: 18px;
-            padding: 12px 15px;
-
-        }
-
-        .name-container {
-            display: flex;
-            gap: 10px;
-        }
-
-        .first-name-container,
-        .last-name-container,
-        .email-container {
-            display: flex;
-            flex-direction: column;
-            gap: 5px
-        }
-
-        .select-category-container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .submit {
-            background-color: #24a3ca;
-            color: #fff;
-            border: 1px solid #24a3ca;
-            cursor: pointer;
-            padding: 15px 25px;
-            font-size: 1.2rem;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
+    h4 {
+      font-size: 24px;
     }
+
+    label {
+      font-weight: 500;
+    }
+
+    input {
+      border: 1px solid $darkBlue;
+      border-radius: 10px;
+      font-size: 18px;
+      padding: 12px 15px;
+    }
+
+    .name-container {
+      display: flex;
+      gap: 10px;
+    }
+
+    .first-name-container,
+    .last-name-container,
+    .email-container {
+      @include flex-column;
+      gap: 5px;
+    }
+
+    .select-category-container {
+      @include flex-column;
+      gap: 10px;
+    }
+
+    .submit {
+      background-color: $darkBlue;
+      color: $white;
+      border: 1px solid $darkBlue;
+      cursor: pointer;
+      padding: 15px 25px;
+      font-size: 1.2rem;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+  }
 }
