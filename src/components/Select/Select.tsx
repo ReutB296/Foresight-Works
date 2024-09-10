@@ -52,16 +52,22 @@ export const Select: FC<SelectProps> = ({
     }
   };
 
-  const handleSelectAll = () => {
+  const handleSelectAll = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (isMultiple) {
       onChange(options);
     }
   };
 
-  const handleDeselectAll = () => {
-    if (isMultiple) {
-      onChange([]);
-    }
+  const handleDeselectAll = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    isMultiple ? onChange([]) : onChange(null);
   };
 
   const filteredOptions = options.filter((option: SelectOption) =>
@@ -75,7 +81,7 @@ export const Select: FC<SelectProps> = ({
         !selectContainerRef.current.contains(event.target as Node)
       ) {
         setIsDropdownOpen(false);
-        setFilterText("")
+        setFilterText("");
       }
     };
 
@@ -105,7 +111,18 @@ export const Select: FC<SelectProps> = ({
           : selectedOptions === null
           ? placeholder
           : (selectedOptions as SelectOption).label}
-        <span className="dropdown-icon">{isDropdownOpen ? "▲" : "▼"}</span>
+        <div className="actions-container">
+          <button
+            className="deselect-buttn"
+            onClick={(e) => {
+              handleDeselectAll(e);
+            }}
+          >
+            &times;
+          </button>
+          <div className="divider"></div>
+          <span className="dropdown-icon">{isDropdownOpen ? "▲" : "▼"}</span>
+        </div>
       </div>
 
       {isDropdownOpen && (
@@ -134,9 +151,17 @@ export const Select: FC<SelectProps> = ({
           {isMultiple && (
             <div className="select-all-options">
               {selectedOptions.length === options.length ? (
-                <button onClick={handleDeselectAll}>Deselect All</button>
+                <button onClick={(e) => handleDeselectAll(e)}>
+                  Deselect All
+                </button>
               ) : (
-                <button onClick={handleSelectAll}>Select All</button>
+                <button
+                  onClick={(e) => {
+                    handleSelectAll(e);
+                  }}
+                >
+                  Select All
+                </button>
               )}
             </div>
           )}

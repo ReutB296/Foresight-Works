@@ -2,81 +2,99 @@
 @import "../../utilities/mixins";
 
 .select-container {
-    position: relative;
-    border: 1px solid $darkBlue;
+  position: relative;
+  border: 1px solid $darkBlue;
+  border-radius: 10px;
+  font-size: 18px;
+
+  .select-box {
+    padding: 10px;
     border-radius: 10px;
-    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-    .select-box {
-        padding: 10px;
-        border-radius: 10px;
+    .actions-container {
+      display: flex;
+      align-items: center;
+
+      .deselect-buttn {
+        background-color: transparent;
+        border: none;
+        font-size: 25px;
         cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+      }
 
-        .dropdown-icon {
-            font-size: 14px;
-        }
-    }
-
-    .select-dropdown {
-        @include flex-column;
+      .divider {
         background-color: $darkBlue;
-        color: $white;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        border-radius: 15px;
-        border: 1px solid $lightBlue;
-        z-index: 1000;
-        padding: 10px;
-        overflow-y: auto;
-
-        .select-filter {
-            background-color: $darkBlue;
-            color: $white;
-            padding: 5px;
-            border: none;
-            margin-bottom: 10px;
-            font-size: 16px;
-
-            &::placeholder {
-                color: $white;
-            }
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-
-            li {
-                padding: 8px;
-                cursor: pointer;
-                border-radius: 5px;
-                color: $lightBlue;
-
-                input[type="checkbox"] {
-                    margin-right: 10px;
-                    accent-color: $white;
-                }
-
-            }
-        }
-
-        .select-all-options {
-            align-self: flex-end;
-
-            button {
-                background-color: transparent;
-                color: $white;
-                border: none;
-                font-size: 16px;
-                cursor: pointer;
-                margin-bottom: 5px;
-            }
-        }
+        align-self: stretch;
+        width: 0.05em;
+      }
     }
+
+    .dropdown-icon {
+      font-size: 14px;
+      padding-left: 6px;
+    }
+  }
+
+  .select-dropdown {
+    @include flex-column;
+    background-color: $darkBlue;
+    color: $white;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    border-radius: 15px;
+    border: 1px solid $lightBlue;
+    z-index: 1000;
+    padding: 10px;
+    overflow-y: auto;
+
+    .select-filter {
+      background-color: $darkBlue;
+      color: $white;
+      padding: 5px;
+      border: none;
+      margin-bottom: 10px;
+      font-size: 16px;
+
+      &::placeholder {
+        color: $white;
+      }
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        padding: 8px;
+        cursor: pointer;
+        border-radius: 5px;
+        color: $lightBlue;
+
+        input[type="checkbox"] {
+          margin-right: 10px;
+          accent-color: $white;
+        }
+      }
+    }
+
+    .select-all-options {
+      align-self: flex-end;
+
+      button {
+        background-color: transparent;
+        color: $white;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        margin-bottom: 5px;
+      }
+    }
+  }
 }
