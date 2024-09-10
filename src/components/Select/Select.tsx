@@ -1,72 +1,110 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 
 import "./Select.scss";
 
-interface SelectOption {
+export type SelectOption = {
   label: string;
-  value: any;
-}
+  value: number;
+};
 
-interface SelectProps {
-  options: SelectOption[];
-  isMultiple: boolean;
+type MultipleSelectProps = {
+  isMultiple: true;
   placeholder: string;
-  onChange: (value: any) => void;
-}
+  selectedOptions: SelectOption[];
+  onChange: (value: SelectOption[]) => void;
+};
+
+type SingleSelectProps = {
+  isMultiple: false;
+  placeholder: string;
+  selectedOptions: SelectOption | null;
+  onChange: (value: SelectOption | null) => void;
+};
+
+type SelectProps = {
+  options: SelectOption[];
+} & (SingleSelectProps | MultipleSelectProps);
 
 export const Select: FC<SelectProps> = ({
   options,
+  selectedOptions,
   isMultiple,
   placeholder,
   onChange,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedValues, setSelectedValues] = useState<any[]>([]);
   const [filterText, setFilterText] = useState("");
 
-  const handleSelect = (value: any) => {
+  const selectContainerRef = useRef<HTMLDivElement>(null);
+
+  const handleSelect = (value: SelectOption) => {
     if (isMultiple) {
-      if (selectedValues.includes(value)) {
-        setSelectedValues((prev) => prev.filter((val) => val !== value));
+      if (selectedOptions.includes(value)) {
+        onChange(
+          selectedOptions.filter((option: SelectOption) => option !== value)
+        );
       } else {
-        setSelectedValues((prev) => [...prev, value]);
+        onChange([...selectedOptions, value]);
       }
     } else {
-      setSelectedValues([value]);
+      if (selectedOptions !== value) onChange(value);
       setIsDropdownOpen(false);
     }
-    onChange(isMultiple ? selectedValues : value);
   };
 
   const handleSelectAll = () => {
-    setSelectedValues(options.map((option) => option.value));
-    onChange(options.map((option) => option.value));
+    if (isMultiple) {
+      onChange(options);
+    }
   };
 
   const handleDeselectAll = () => {
-    setSelectedValues([]);
-    onChange([]);
+    if (isMultiple) {
+      onChange([]);
+    }
   };
 
-  const filteredOptions = options.filter((option) =>
+  const filteredOptions = options.filter((option: SelectOption) =>
     option.label.toLowerCase().includes(filterText.toLowerCase())
   );
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        selectContainerRef.current &&
+        !selectContainerRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+        setFilterText("")
+      }
+    };
+
+    if (isDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isDropdownOpen]);
+
   return (
-    <div className="select-container">
+    <div className="select-container" ref={selectContainerRef}>
       <div
         className="select-box"
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
       >
-        {selectedValues.length === 0
+        {isMultiple
+          ? (selectedOptions as SelectOption[]).length === 0
+            ? placeholder
+            : (selectedOptions as SelectOption[])
+                .map((option: SelectOption) => option.label)
+                .join(", ")
+          : selectedOptions === null
           ? placeholder
-          : selectedValues
-              .map(
-                (value: number) =>
-                  options.find((option: SelectOption) => option.value === value)
-                    ?.label
-              )
-              .join(", ")}
+          : (selectedOptions as SelectOption).label}
         <span className="dropdown-icon">{isDropdownOpen ? "▲" : "▼"}</span>
       </div>
 
@@ -80,12 +118,12 @@ export const Select: FC<SelectProps> = ({
             className="select-filter"
           />
           <ul>
-            {filteredOptions.map((option) => (
-              <li key={option.value} onClick={() => handleSelect(option.value)}>
+            {filteredOptions.map((option: SelectOption) => (
+              <li key={option.value} onClick={() => handleSelect(option)}>
                 {isMultiple ? (
                   <input
                     type="checkbox"
-                    checked={selectedValues.includes(option.value)}
+                    checked={selectedOptions.includes(option)}
                     readOnly
                   />
                 ) : null}
@@ -95,7 +133,7 @@ export const Select: FC<SelectProps> = ({
           </ul>
           {isMultiple && (
             <div className="select-all-options">
-              {selectedValues.length === options.length ? (
+              {selectedOptions.length === options.length ? (
                 <button onClick={handleDeselectAll}>Deselect All</button>
               ) : (
                 <button onClick={handleSelectAll}>Select All</button>

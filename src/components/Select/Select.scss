@@ -54,30 +54,15 @@
 
             li {
                 padding: 8px;
-                display: flex;
-                align-items: center;
-
                 cursor: pointer;
                 border-radius: 5px;
                 color: $lightBlue;
-
-                &:hover {
-                    background-color: $darkBlue;
-                }
 
                 input[type="checkbox"] {
                     margin-right: 10px;
                     accent-color: $white;
                 }
 
-                &.deselect-all {
-                    color: $lightBlue;
-                    font-size: 14px;
-                    font-weight: bold;
-                    text-align: right;
-                    cursor: pointer;
-                    padding-top: 10px;
-                }
             }
         }
 

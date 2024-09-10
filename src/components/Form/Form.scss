@@ -44,6 +44,10 @@
     .select-category-container {
       @include flex-column;
       gap: 10px;
+
+      label:nth-of-type(2) {
+        margin-top: 10px;
+      }
     }
 
     .submit {

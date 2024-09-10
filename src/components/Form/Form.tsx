@@ -1,10 +1,10 @@
 import { FC, useState } from "react";
 
-import { Select } from "../Select/Select";
+import { Select, SelectOption } from "../Select/Select";
 
 import "./Form.scss";
 
-const options = [
+const options: SelectOption[] = [
   { label: "Image", value: 1 },
   { label: "Live", value: 2 },
   { label: "Notes", value: 3 },
@@ -20,14 +20,21 @@ export const Form: FC = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [selectedOptions, setSelectedOptions] = useState<number[]>(
-    []
+  const [selectedOptions, setSelectedOptions] = useState<SelectOption[]>([]);
+  const [selectedOption, setSelectedOption] = useState<SelectOption | null>(
+    null
   );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ firstName, lastName, email, selectedOptions });
-    selectedOptions.map((option: number) => console.log(option));
+    console.log({
+      firstName,
+      lastName,
+      email,
+      selectedOptions,
+      selectedOption,
+    });
+    // selectedOptions.map((option: number) => console.log(option));
   };
 
   return (
@@ -61,19 +68,22 @@ export const Form: FC = () => {
           />
         </div>
         <div className="select-category-container">
-          <label>Select Category</label>
+          <label>Select Categories</label>
           <Select
             options={options}
+            selectedOptions={selectedOptions}
             isMultiple={true}
             placeholder={multiPlaceholder}
             onChange={(selected) => setSelectedOptions(selected)}
           />
-          {/* <Select
+          <label>Select Category</label>
+          <Select
             options={options}
+            selectedOptions={selectedOption}
             isMultiple={false}
             placeholder={singlePlaceholder}
-            onChange={(selected) => setSelectedOptions(selected)}
-          /> */}
+            onChange={(selected) => setSelectedOption(selected)}
+          />
         </div>
         <button type="submit" className="submit">
           Submit
