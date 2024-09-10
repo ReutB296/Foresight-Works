@@ -126,7 +126,7 @@ export const Select: FC<SelectProps> = ({
       </div>
 
       {isDropdownOpen && (
-        <div className="select-dropdown">
+        <div className="select-dropdown" role="listbox">
           <input
             type="text"
             placeholder="Search..."
