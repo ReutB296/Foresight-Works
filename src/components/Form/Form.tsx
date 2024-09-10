@@ -32,9 +32,8 @@ export const Form: FC = () => {
       lastName,
       email,
       selectedOptions,
-      selectedOption,
+      selectedOption
     });
-    // selectedOptions.map((option: number) => console.log(option));
   };
 
   return (
